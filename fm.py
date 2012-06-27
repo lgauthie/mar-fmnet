@@ -3,99 +3,6 @@
 from marsyas import *
 from marsyas_util import *
 
-def main():
-    synth = FM()
-    synth.update_oscs( fr1 = 250, fr2 = 1500, ra1 = 1, ra2 = 1.0/6, in1 = 2.66, in2 = 1.8 )
-    synth.update_envs( at1 = 0.03, at2 = 0.03, de1 = 0.15, de2 = 0.3, re1 = 0.1, re2 = 0.1 )
-    synth.set_gain( ga1 = 1.0, ga2 = 0.2 )
-    synth.note_on()
-
-    modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 250 * 2.66)
-    modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 250 * 1.8)
-    modenv1.note_on()
-    modenv2.note_on()
-
-    time = 0.0
-    derp = 'first'
-    while time < 2.0:
-        synth()
-        modenv1()
-        modenv2()
-
-        if time > 0.3 and derp == 'first':
-            synth.note_off()
-            modenv1.note_off()
-            modenv2.note_off()
-            derp = 'second'
-        elif time > 0.5 and derp == 'second':
-            synth.update_oscs( fr1 = 440, fr2 = 440*6, ra1 = 1, ra2 = 1.0/6, in1 = 2.66, in2 = 1.8 )
-            modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 440 * 2.66)
-            modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 440 * 1.8)
-            synth.note_on()
-            modenv1.note_on()
-            modenv2.note_on()
-            derp = 'final'
-        if time > 0.8 and derp == 'final':
-            synth.note_off()
-            modenv1.note_off()
-            modenv2.note_off()
-            derp = 'off'
-        time = time + synth.tstep
-
-class Env:
-    """
-    This class is used to modulation a marsystems parameters
-    via a ADSR envelope.
-    """
-    state = 'off'
-    val = 0
-
-    def __init__(self, synth, param, atime = 0.03, dtime = 0.25,
-                       rtime = 0.1, suslvl = 0.85, scale = 1):
-        """
-        Initializes the envelopes parameters
-        """
-        self.target = 1
-        self.atime = atime
-        self.dtime = dtime
-        self.rtime = rtime
-        self.suslvl = suslvl
-        self.scale = scale
-        self.arate = self.target / (self.atime / synth.tstep)
-        self.drate = (self.target - self.suslvl) / (self.dtime / synth.tstep)
-        self.rrate = self.suslvl / (self.rtime / synth.tstep)
-        self.synth = synth
-        self.param = param
-
-    def __call__(self):
-        """
-        Updates the envelope, and chosen parameter each time 
-        the class is called.
-        """
-        if self.state == 'attack':
-            self.val += self.arate
-            if self.val >= self.target:
-                self.val = self.target
-                self.target = self.suslvl
-                self.state = 'decay'
-        elif self.state == 'decay':
-            self.val -= self.drate
-            if self.val <= self.target:
-                self.val = self.target
-                self.state = 'sustain'
-        elif self.state == 'release':
-            self.val -= self.rrate
-            if self.val <= 0:
-                self.val = 0
-                self.state = 'end'
-        self.synth.network.updControl(self.param, float(self.val * self.scale))
-
-    def note_on(self):
-        self.state = 'attack'
-
-    def note_off(self):
-        self.state = 'release'
-
 
 class FM:
     """
@@ -108,6 +15,13 @@ class FM:
                    //
         Fm(yt) => Env
     """
+
+    # Default our systems ratios, and indexes to 1
+    ra1 = 1
+    ra2 = 1
+    in1 = 1
+    in2 = 1
+
     def __init__(self):
         """
         Sets up the marsystem, and then calls the functions to initialize
@@ -185,19 +99,33 @@ class FM:
         # Set up Audio File
         self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
 
-    def update_oscs(self, fr1, fr2, ra1, ra2, in1, in2):
+    def update_ratios(self, ra1, ra2):
+        """
+        Updates the ratios of the oscillators
+        """
+        self.ra1 = ra1
+        self.ra2 = ra2
+
+    def update_indexs(self, in1, in2):
+        """
+        Updates the mod indexs of the oscillors
+        """
+        self.in1 = in1
+        self.in2 = in2
+
+    def update_oscs(self, fr1, fr2):
         """
         Updates the frequencies, ratios, and modulation indexes
         for both of the oscillators.
         """
         # Set Osc1
         self.network.updControl( "mrs_real/Osc1cFreq",  float(fr1))
-        self.network.updControl( "mrs_real/Osc1mDepth", float(fr1 * in1))
-        self.network.updControl( "mrs_real/Osc1mSpeed", float(fr1 * ra1))
+        self.network.updControl( "mrs_real/Osc1mDepth", float(fr1 * self.in1))
+        self.network.updControl( "mrs_real/Osc1mSpeed", float(fr1 * self.ra1))
         # Set Osc2
         self.network.updControl( "mrs_real/Osc2cFreq",  float(fr2))
-        self.network.updControl( "mrs_real/Osc2mDepth", float(fr2 * in2))
-        self.network.updControl( "mrs_real/Osc2mSpeed", float(fr2 * ra2))
+        self.network.updControl( "mrs_real/Osc2mDepth", float(fr2 * self.in2))
+        self.network.updControl( "mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
 
     def update_envs(self, at1, at2, de1, de2, re1, re2):
         """
@@ -228,6 +156,110 @@ class FM:
         """
         self.network.tick()
 
+
+class Env:
+    """
+    This class is used to modulation a marsystems parameters
+    via a ADSR envelope.
+    """
+    state = 'off'
+    val = 0
+
+    def __init__(self, synth, param, atime = 0.03, dtime = 0.25,
+                       rtime = 0.1, suslvl = 0.85, scale = 1):
+        """
+        Initializes the envelopes parameters
+        """
+        self.target = 1
+        self.atime = atime
+        self.dtime = dtime
+        self.rtime = rtime
+        self.suslvl = suslvl
+        self.scale = scale
+        self.arate = self.target / (self.atime / synth.tstep)
+        self.drate = (self.target - self.suslvl) / (self.dtime / synth.tstep)
+        self.rrate = self.suslvl / (self.rtime / synth.tstep)
+        self.synth = synth
+        self.param = param
+
+    def __call__(self):
+        """
+        Updates the envelope, and chosen parameter each time 
+        the class is called.
+        """
+        if self.state == 'attack':
+            self.val += self.arate
+            if self.val >= self.target:
+                self.val = self.target
+                self.target = self.suslvl
+                self.state = 'decay'
+        elif self.state == 'decay':
+            self.val -= self.drate
+            if self.val <= self.target:
+                self.val = self.target
+                self.state = 'sustain'
+        elif self.state == 'release':
+            self.val -= self.rrate
+            if self.val <= 0:
+                self.val = 0
+                self.state = 'end'
+                self.target = 1
+        self.synth.network.updControl(self.param, float(self.val * self.scale))
+
+    def note_on(self):
+        """
+        Used to trigger the envelope
+        """
+        self.state = 'attack'
+
+    def note_off(self):
+        """
+        Tells the envelope when to stop playing
+        """
+        self.state = 'release'
+
+
+def main():
+    # This is where we set up the synth we created
+    synth = FM()
+    synth.update_oscs( fr1 = 250, fr2 = 250*6 )
+    synth.update_envs( at1 = 0.03, at2 = 0.03, de1 = 0.15, de2 = 0.3, re1 = 0.1, re2 = 0.1 )
+    synth.update_indexs( 2.66, 1.8 )
+    synth.update_ratios( 1, 1.0/6 )
+    synth.set_gain( ga1 = 1.0, ga2 = 0.2 )
+    synth.note_on()
+
+    modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 250 * 2.66)
+    modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 250 * 1.8)
+    modenv1.note_on()
+    modenv2.note_on()
+
+    time = 0.0
+    derp = 'first'
+    while time < 2.0:
+        synth()
+        modenv1()
+        modenv2()
+
+        if time > 0.3 and derp == 'first':
+            synth.note_off()
+            modenv1.note_off()
+            modenv2.note_off()
+            derp = 'second'
+        elif time > 0.5 and derp == 'second':
+            synth.update_oscs( fr1 = 440, fr2 = 440*6 )
+            modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 440 * 2.66)
+            modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 440 * 1.8)
+            synth.note_on()
+            modenv1.note_on()
+            modenv2.note_on()
+            derp = 'final'
+        if time > 0.8 and derp == 'final':
+            synth.note_off()
+            modenv1.note_off()
+            modenv2.note_off()
+            derp = 'off'
+        time = time + synth.tstep
 
 if __name__ == "__main__":
     main()
