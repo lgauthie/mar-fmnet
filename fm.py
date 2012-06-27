@@ -229,6 +229,7 @@ def main():
     synth.set_gain( ga1 = 1.0, ga2 = 0.2 )
     synth.note_on()
 
+    # Link the mod depth to our envelope
     modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 250 * 2.66)
     modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 250 * 1.8)
     modenv1.note_on()
