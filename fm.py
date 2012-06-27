@@ -232,8 +232,6 @@ def main():
     # Link the mod depth to our envelope
     modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 250 * 2.66)
     modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 250 * 1.8)
-    modenv1.note_on()
-    modenv2.note_on()
 
     pitch = 250
     notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
@@ -254,6 +252,8 @@ def main():
                 modenv2.note_off()
                 nton = 'off'
             time = time + synth.tstep
+
+def trumpet():
 
 def trig( fr1, fr2, synth, modenv1, modenv2 ):
     synth.update_oscs( fr1, fr2 )
