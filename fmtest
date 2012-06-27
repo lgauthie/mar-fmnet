@@ -2,5 +2,4 @@
 
 python fm.py
 play fm.wav
-python plot_spectrogram.py --fname fm.wav --maxfreq 15000 --height 500  --flen 4096
-
+python plot_spectrogram.py --fname fm.wav --maxfreq 15000 --height 500  --flen 2048 #8192
