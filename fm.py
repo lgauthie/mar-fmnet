@@ -253,8 +253,6 @@ def main():
                 nton = 'off'
             time = time + synth.tstep
 
-def trumpet():
-
 def trig( fr1, fr2, synth, modenv1, modenv2 ):
     synth.update_oscs( fr1, fr2 )
     modenv1.__init__(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = fr1 * 2.66)
