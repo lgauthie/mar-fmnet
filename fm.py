@@ -211,6 +211,8 @@ class Env:
         Used to trigger the envelope
         """
         self.state = 'attack'
+        self.val = 0
+        self.target = 1
 
     def note_off(self):
         """
@@ -222,9 +224,7 @@ class Env:
 def main():
     # This is where we set up the synth we created
     synth = FM()
-    synth.update_oscs( fr1 = 250, fr2 = 250*6 )
     synth.update_envs( at1 = 0.03, at2 = 0.03, de1 = 0.15, de2 = 0.3, re1 = 0.1, re2 = 0.1 )
-    synth.update_indexs( 2.66, 1.8 )
     synth.update_ratios( 1, 1.0/6 )
     synth.set_gain( ga1 = 1.0, ga2 = 0.2 )
     synth.note_on()
@@ -235,32 +235,33 @@ def main():
     modenv1.note_on()
     modenv2.note_on()
 
-    time = 0.0
-    derp = 'first'
-    while time < 2.0:
-        synth()
-        modenv1()
-        modenv2()
+    pitch = 250
+    notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
 
-        if time > 0.3 and derp == 'first':
-            synth.note_off()
-            modenv1.note_off()
-            modenv2.note_off()
-            derp = 'second'
-        elif time > 0.5 and derp == 'second':
-            synth.update_oscs( fr1 = 440, fr2 = 440*6 )
-            modenv1 = Env(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 440 * 2.66)
-            modenv2 = Env(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 440 * 1.8)
-            synth.note_on()
-            modenv1.note_on()
-            modenv2.note_on()
-            derp = 'final'
-        if time > 0.8 and derp == 'final':
-            synth.note_off()
-            modenv1.note_off()
-            modenv2.note_off()
-            derp = 'off'
-        time = time + synth.tstep
+    for note in notes:
+        time = 0.0
+        nton = 'on'
+
+        trig( note, note*6, synth, modenv1, modenv2 )
+        while time < 0.4:
+            synth()
+            modenv1()
+            modenv2()
+
+            if time > 0.3 and nton == 'on':
+                synth.note_off()
+                modenv1.note_off()
+                modenv2.note_off()
+                nton = 'off'
+            time = time + synth.tstep
+
+def trig( fr1, fr2, synth, modenv1, modenv2 ):
+    synth.update_oscs( fr1, fr2 )
+    modenv1.__init__(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = fr1 * 2.66)
+    modenv2.__init__(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = fr2 * 1.8)
+    synth.note_on()
+    modenv1.note_on()
+    modenv2.note_on()
 
 if __name__ == "__main__":
     main()
