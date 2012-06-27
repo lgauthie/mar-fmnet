@@ -1,0 +1,4 @@
+#!/bin/bash
+
+python fm.py
+play fm.wav
