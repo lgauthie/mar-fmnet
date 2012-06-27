@@ -45,12 +45,11 @@ class FM:
         self.srate = self.network.getControl("mrs_real/osrate").to_real()
         self.tstep = self.bufferSize * 1.0 / self.srate
 
-    def set_gain(self, ga1, ga2):
+    def __call__(self):
         """
-        Sets the gain of each oscillator in the mar system
+        Ticks the network when the synth is called
         """
-        self.network.updControl("Fanout/mix/Series/osc1/Gain/gain1/mrs_real/gain", ga1)
-        self.network.updControl("Fanout/mix/Series/osc2/Gain/gain2/mrs_real/gain", ga2)
+        self.network.tick()
 
     def _init_fm(self):
         """
@@ -122,6 +121,13 @@ class FM:
         self.network.updControl( "mrs_real/Osc2mDepth", float(fr2 * self.in2))
         self.network.updControl( "mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
 
+    def set_gain(self, ga1, ga2):
+        """
+        Sets the gain of each oscillator in the mar system
+        """
+        self.network.updControl("Fanout/mix/Series/osc1/Gain/gain1/mrs_real/gain", ga1)
+        self.network.updControl("Fanout/mix/Series/osc2/Gain/gain2/mrs_real/gain", ga2)
+
     def update_envs(self, at1, at2, de1, de2, re1, re2):
         """
         Updates the amplitude envelopes of both oscillators
@@ -144,12 +150,6 @@ class FM:
         Turns a note off
         """
         self.network.updControl( "mrs_real/noteoff", 1.0)
-
-    def __call__(self):
-        """
-        Ticks the network when the synth is called
-        """
-        self.network.tick()
 
 
 class Env:
