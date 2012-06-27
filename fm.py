@@ -33,13 +33,12 @@ class FM:
         osc2 = ["Series/osc2",["FM/fm2","ADSR/env2","Gain/gain2"]]
         fms = ["Fanout/mix", [osc1, osc2]]
         gen = ["Series/fmnet",[fms,"Sum/sum",
-                               "SoundFileSink/dest2","PowerSpectrum/ps"]]
+                               "SoundFileSink/dest2","AudioSink/dest1"]]
 
         # Create network and intialize parameter mapping
         self.network = create(gen)
         self._init_fm()
         self._init_audio()
-        self._init_analysis()
 
         # Used to calculate time based off of buffer size and rate
         self.bufferSize = self.network.getControl("mrs_natural/inSamples").to_natural()
@@ -52,10 +51,6 @@ class FM:
         """
         self.network.updControl("Fanout/mix/Series/osc1/Gain/gain1/mrs_real/gain", ga1)
         self.network.updControl("Fanout/mix/Series/osc2/Gain/gain2/mrs_real/gain", ga2)
-
-    def _init_analysis(self):
-        self.network.linkControl("PowerSpectrum/ps/mrs_realvec/processedData",
-                                 "mrs_realvec/spectrum1")
 
     def _init_fm(self):
         """
