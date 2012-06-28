@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from marsyas import *
-from marsyas_util import *
+from marsyas_util import create
 
 
 class FM:
@@ -29,11 +29,10 @@ class FM:
 
         """
         # Set up fm network
-        osc1 = ["Series/osc1",["FM/fm1","ADSR/env1","Gain/gain1"]]
-        osc2 = ["Series/osc2",["FM/fm2","ADSR/env2","Gain/gain2"]]
+        osc1 = ["Series/osc1", ["FM/fm1", "ADSR/env1", "Gain/gain1"]]
+        osc2 = ["Series/osc2", ["FM/fm2", "ADSR/env2", "Gain/gain2"]]
         fms = ["Fanout/mix", [osc1, osc2]]
-        gen = ["Series/fmnet",[fms,"Sum/sum",
-                               "SoundFileSink/dest2","AudioSink/dest1"]]
+        gen = ["Series/fmnet", [fms, "Sum/sum", "SoundFileSink/dest2"]]
 
         # Create network and intialize parameter mapping
         self.network = create(gen)
