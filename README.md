@@ -4,6 +4,10 @@ We are going to emulate a trumpet tone according to the two operator
 method described by Dexter Morrill in the first edition of the
 computer music journal.
 
+```
+There should be a blurb here talking about what we need to create a trumpet tone
+```
+
 Prerequisites
 -------------
 To follow this tutorial you will need:
@@ -65,21 +69,21 @@ class FM:
 
     def _init_audio(self):
         """
-        This method will set up the audio, for the purpose of
-        generating graphs of we are only using file out. If 
+        This method will set up the audio system, currently
+        we are only using the marsyas AudioFileSink. If 
         you wanted to use the AudioSink marsystem that should
         be initialized here as well.
         """
 
     def set_ratios(self):
         """
-        This method should be used to set the default mod 
+        This method should be used to set the default modulation 
         ratios for the marsystem.
         """
 
     def set_mod_indices(self):
         """
-        This method should be used to set the defaul mod
+        This method should be used to set the default modulation
         indices for the marsystem.
         """
 
@@ -288,7 +292,7 @@ the other is called the modulator; it controls the frequency of the carrier.
 
 Both are normally set to be in the audible range, but some neat aliasing effects can
 be achieved if they are not(this also depends on the sample rate of the system).
-See [this](http://en.wikipedia.org/wiki/Aliasing).
+See [this](http://en.wikipedia.org/wiki/Aliasing#Sampling_sinusoidal_functions).
 
 The amplitude of the sidebands are controlled by:
 + Modulation Index
@@ -478,7 +482,7 @@ synth.update_oscs(pitch, pitch * 6)
 
 The other thing you might have noticed is that we never set the default modulation
 index. This is because we are controlling that parameter via an envelope. Therefore
-what is the ADSR scale becomes the our modulation amount.
+we have to set the modulation amout using the ADSR scale factor.
 ```python
 modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
 modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
@@ -493,4 +497,4 @@ pitch, ratio, and any other interesting parameters. This would allow for sample
 accurate modulation.
 
 There is also some other issues with the built in FM module. If the mod ratio isn't a whole
-number, there is some pops and clicks that start to happen in the output signal.
+number, there will be pops and clicks in the output signal.
