@@ -58,30 +58,30 @@ class FM:
         """
         # Map Osc1 Controls
         Osc1 = 'Fanout/mix/Series/osc1/FM/fm1/'
-        self.network.linkControl( Osc1 + "mrs_real/cFrequency", "mrs_real/Osc1cFreq")
-        self.network.linkControl( Osc1 + "mrs_real/mDepth", "mrs_real/Osc1mDepth")
-        self.network.linkControl( Osc1 + "mrs_real/mSpeed", "mrs_real/Osc1mSpeed")
-        self.network.linkControl( Osc1 + "mrs_bool/noteon", "mrs_bool/noteon")
+        self.network.linkControl(Osc1 + "mrs_real/cFrequency", "mrs_real/Osc1cFreq")
+        self.network.linkControl(Osc1 + "mrs_real/mDepth", "mrs_real/Osc1mDepth")
+        self.network.linkControl(Osc1 + "mrs_real/mSpeed", "mrs_real/Osc1mSpeed")
+        self.network.linkControl(Osc1 + "mrs_bool/noteon", "mrs_bool/noteon")
         # Map Osc2 Controls
         Osc2 = 'Fanout/mix/Series/osc2/FM/fm2/'
-        self.network.linkControl( Osc2 + "mrs_real/cFrequency", "mrs_real/Osc2cFreq")
-        self.network.linkControl( Osc2 + "mrs_real/mDepth", "mrs_real/Osc2mDepth")
-        self.network.linkControl( Osc2 + "mrs_real/mSpeed", "mrs_real/Osc2mSpeed")
-        self.network.linkControl( Osc2 + "mrs_bool/noteon", "mrs_bool/noteon")
+        self.network.linkControl(Osc2 + "mrs_real/cFrequency", "mrs_real/Osc2cFreq")
+        self.network.linkControl(Osc2 + "mrs_real/mDepth", "mrs_real/Osc2mDepth")
+        self.network.linkControl(Osc2 + "mrs_real/mSpeed", "mrs_real/Osc2mSpeed")
+        self.network.linkControl(Osc2 + "mrs_bool/noteon", "mrs_bool/noteon")
         # Map ADSR1
         adsr1 = 'Fanout/mix/Series/osc1/ADSR/env1/'
-        self.network.linkControl( adsr1 + "mrs_real/nton", "mrs_real/noteon")
-        self.network.linkControl( adsr1 + "mrs_real/ntoff", "mrs_real/noteoff")
-        self.network.linkControl( adsr1 + "mrs_real/aTime", "mrs_real/attack1")
-        self.network.linkControl( adsr1 + "mrs_real/dTime", "mrs_real/decay1")
-        self.network.linkControl( adsr1 + "mrs_real/rTime", "mrs_real/release1")
+        self.network.linkControl(adsr1 + "mrs_real/nton", "mrs_real/noteon")
+        self.network.linkControl(adsr1 + "mrs_real/ntoff", "mrs_real/noteoff")
+        self.network.linkControl(adsr1 + "mrs_real/aTime", "mrs_real/attack1")
+        self.network.linkControl(adsr1 + "mrs_real/dTime", "mrs_real/decay1")
+        self.network.linkControl(adsr1 + "mrs_real/rTime", "mrs_real/release1")
         # Map ADSR2
         adsr2 = 'Fanout/mix/Series/osc2/ADSR/env2/'
-        self.network.linkControl( adsr2 + "mrs_real/nton", "mrs_real/noteon")
-        self.network.linkControl( adsr2 + "mrs_real/ntoff", "mrs_real/noteoff")
-        self.network.linkControl( adsr2 + "mrs_real/aTime", "mrs_real/attack2")
-        self.network.linkControl( adsr2 + "mrs_real/dTime", "mrs_real/decay2")
-        self.network.linkControl( adsr2 + "mrs_real/rTime", "mrs_real/release2")
+        self.network.linkControl(adsr2 + "mrs_real/nton", "mrs_real/noteon")
+        self.network.linkControl(adsr2 + "mrs_real/ntoff", "mrs_real/noteoff")
+        self.network.linkControl(adsr2 + "mrs_real/aTime", "mrs_real/attack2")
+        self.network.linkControl(adsr2 + "mrs_real/dTime", "mrs_real/decay2")
+        self.network.linkControl(adsr2 + "mrs_real/rTime", "mrs_real/release2")
         # Turn Oscillators on
         self.network.updControl( "mrs_bool/noteon", MarControlPtr.from_bool(True))
 
@@ -93,14 +93,14 @@ class FM:
         # Set up Audio File
         self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
 
-    def update_ratios(self, ra1, ra2):
+    def set_ratios(self, ra1, ra2):
         """
         Updates the ratios of the oscillators
         """
         self.ra1 = ra1
         self.ra2 = ra2
 
-    def update_mod_indices(self, in1, in2):
+    def set_mod_indices(self, in1, in2):
         """
         Updates the mod indexs of the oscillors
         """
@@ -113,13 +113,13 @@ class FM:
         for both of the oscillators.
         """
         # Set Osc1
-        self.network.updControl( "mrs_real/Osc1cFreq",  float(fr1))
-        self.network.updControl( "mrs_real/Osc1mDepth", float(fr1 * self.in1))
-        self.network.updControl( "mrs_real/Osc1mSpeed", float(fr1 * self.ra1))
+        self.network.updControl("mrs_real/Osc1cFreq",  float(fr1))
+        self.network.updControl("mrs_real/Osc1mDepth", float(fr1 * self.in1))
+        self.network.updControl("mrs_real/Osc1mSpeed", float(fr1 * self.ra1))
         # Set Osc2
-        self.network.updControl( "mrs_real/Osc2cFreq",  float(fr2))
-        self.network.updControl( "mrs_real/Osc2mDepth", float(fr2 * self.in2))
-        self.network.updControl( "mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
+        self.network.updControl("mrs_real/Osc2cFreq",  float(fr2))
+        self.network.updControl("mrs_real/Osc2mDepth", float(fr2 * self.in2))
+        self.network.updControl("mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
 
     def set_gain(self, ga1, ga2):
         """
@@ -133,21 +133,21 @@ class FM:
         Updates the amplitude envelopes of both oscillators
         """
         #TODO: This function is a bit
-        self.network.updControl( "mrs_real/attack1",   at1)
-        self.network.updControl( "mrs_real/decay1",    de1)
-        self.network.updControl( "mrs_real/release1",  re1)
-        self.network.updControl( "mrs_real/attack2",   at2)
-        self.network.updControl( "mrs_real/decay2",    de2)
-        self.network.updControl( "mrs_real/release2",  re2)
+        self.network.updControl("mrs_real/attack1",   at1)
+        self.network.updControl("mrs_real/decay1",    de1)
+        self.network.updControl("mrs_real/release1",  re1)
+        self.network.updControl("mrs_real/attack2",   at2)
+        self.network.updControl("mrs_real/decay2",    de2)
+        self.network.updControl("mrs_real/release2",  re2)
 
     def note_on(self):
         """
         Starts a note playing
         """
-        self.network.updControl( "mrs_real/noteon",  1.0)
+        self.network.updControl("mrs_real/noteon",  1.0)
 
     def note_off(self):
         """
         Turns a note off
         """
-        self.network.updControl( "mrs_real/noteoff", 1.0)
+        self.network.updControl("mrs_real/noteoff", 1.0)
