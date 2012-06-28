@@ -1,6 +1,9 @@
 Synthesizeing trumpet tones with FM synthesis
 =============================================
 
+The structure
+-------------
+
 The first thing we will do is create a class to wrap our marsytem.
 This is done so we can hid the marsystem from the user.
 
@@ -13,11 +16,17 @@ class FM:
     def __call__(self):
         pass
 
-    def some_func(self, x):
-        return x + x
-    ...
-    ...
-    ...
+    def _init_fm(self):
+        pass
+
+    def _init_audio(self):
+        pass
+
+    def update_ratios(self):
+        pass
+
+    def update_mod_indices():
+        pass
 ```
 
 ```
