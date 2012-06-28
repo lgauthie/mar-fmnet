@@ -100,7 +100,7 @@ class FM:
         self.ra1 = ra1
         self.ra2 = ra2
 
-    def update_indexs(self, in1, in2):
+    def update_mod_indices(self, in1, in2):
         """
         Updates the mod indexs of the oscillors
         """
