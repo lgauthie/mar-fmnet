@@ -18,9 +18,11 @@ class FM:
 ```
 
 <table>
-*note: that the self var in the function call is used to access
-       member variables. This is implied, and the function can
-       be called as -- fm_instance.some_func(3)
+    <tr>
+        *note: that the self var in the function call is used to access
+               member variables. This is implied, and the function can
+               be called as -- fm_instance.some_func(3)
+    </tr>
 </table>
        
 
