@@ -19,6 +19,9 @@ A tutorial on installing Marsyas and swig python bindings can
 be found
 [here](http://marsology.blogspot.ca/2011/09/installing-marsyas-with-python-bindings.html).
 
+I'm also assuming you have some experience with classes in python, and object oriented 
+programming in general.
+
 The structure
 -------------
 
@@ -28,6 +31,8 @@ This is done so we can hide the marsystem from the user.
 ```python
 #!/usr/bin/env python
 
+# import all the functions we need from the marsyas
+# library, and marsyas_util.
 from marsyas import *
 from marsyas_util import create
 
@@ -102,12 +107,6 @@ class FM:
         Likewise this method will set the note_off message
         for the marsystem.
         """
-```
-
-```
-*note: that the self var in the function call is used to access
-       member variables. This is implied, and the function can
-       be called as -- fm_instance.some_func(3)
 ```
 
 Setting up the system
@@ -331,3 +330,57 @@ def update_oscs(self, fr1, fr2):
     self.network.updControl("mrs_real/Osc2mDepth", float(fr2 * self.in2))
     self.network.updControl("mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
 ```
+
+The envelopes
+-------------
+
+Here we will be doing very much the same thing as we just did above, but
+this time we will be setting the parameters for our amplitude envelopes.
+
+An ADSR envelope like the one we are using in this system has four stages:
++ Attack - time to get to the maximum amplitude
++ Decay - time to get to the sustain amplitude
++ Sustain - holds the sustain amplitude until given note off
++ Release - time for the amplitude to reach zero after the note off
+
+```python
+def update_envs(self, at1, at2, de1, de2, re1, re2):
+
+    # Envelope one settings
+    self.network.updControl("mrs_real/attack1",   at1)
+    self.network.updControl("mrs_real/decay1",    de1)
+    self.network.updControl("mrs_real/release1",  re1)
+
+    # Envelope two settings
+    self.network.updControl("mrs_real/attack2",   at2)
+    self.network.updControl("mrs_real/decay2",    de2)
+    self.network.updControl("mrs_real/release2",  re2)
+```
+
+Note on, note off
+-----------------
+
+These two methods are used to tell our envelope when to turn on, and
+when to turn off. We mapped the controls we are using now back in the
+mapping controls section.
+
+```python
+def note_on(self):
+    self.network.updControl("mrs_real/noteon",  1.0)
+
+def note_off(self):
+    self.network.updControl("mrs_real/noteoff", 1.0)
+```
+
+More envelopes
+----------
+
+The last ability we need to create a "Convincing" FM trumpet is the power
+to modulate the index over time.
+
+I have written an ADSR envelope in python that will allow us to modulate
+any parameter of our synth. We can only update the value each time we tick
+our system, but it is better then having no modulation.
+
+Lets put this all together
+--------------------------
