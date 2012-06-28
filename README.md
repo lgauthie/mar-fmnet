@@ -1,13 +1,23 @@
-Synthesizeing trumpet tones with FM synthesis
+Synthesizing trumpet tones with FM synthesis
 =============================================
-The idea is to emulate a trumpet tone accoarding to the two operator
+We are going to emulate a trumpet tone according to the two operator
 method described by Steve Saunders in the first edition of the
 computer music journal.
+
+Prerequisites
+-------------
+To follow this tutorial you will need:
++ Python
++ Marsyas - compiled with the swig python bindings
+
+A tutorial on installing Marsyas and swig python bindings can
+be found
+[here](http://marsology.blogspot.ca/2011/09/installing-marsyas-with-python-bindings.html).
 
 The structure
 -------------
 
-The first thing we will do is create a class to wrap our marsytem.
+The first thing we will do is create a class to wrap our marsystem.
 This is done so we can hid the marsystem from the user.
 
 ```python
