@@ -13,7 +13,7 @@ To follow this tutorial you will need:
 + plot_spectrogram - from the same location
 
 marsyas_util.py and plot_spectrogram.py should be placed in the same folder
-as these code examples.
+as the code examples.
 
 A tutorial on installing Marsyas and swig python bindings can
 be found
@@ -176,8 +176,9 @@ instead of:
 network.updControl("Fanout/mix/Series/osc1/FM/fm1/mrs_real/cFrequency")
 ```
 
-Because we may want to re-use this system in a larger context linking controls like
-this become really import so access to parameters doesn't become completely ridiculous.
+Because we may want to re-use this system in a larger contexts linking controls like
+this becomes really import; it keeps access to system parameters from becoming
+completely ridiculous.
 
 ```python
 def _init_fm(self):
@@ -212,21 +213,53 @@ def _init_fm(self):
 ```
 
 The oscillators are also turned on at this point because we want them to generate a constant
-signal. We will use the ADSR envelopes to control the output volume of the system.
+signal. We will instead use the ADSR envelopes to control the output volume of the system.
 
 Initializing the audio
 ----------------------
 
 Here we are setting up the audio output for our mar system. Right now we are just
-using the file output, but buffer_size and device are left in the call incase
-we want to add direct writing to an AudioSink.
+using the file output, but buffer_size and device are left in the method call in case
+we want to add the ability to directly write to an AudioSink.
 
 ```python
-    def _init_audio(self, sample_rate = 44100.0, buffer_size = 128, device = 1):
-        """
-        Sets up the audio output for the network
-        """
-        self.network.updControl( "mrs_real/israte", sample_rate)
-        # Set up Audio File
-        self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
+def _init_audio(self, sample_rate = 44100.0, buffer_size = 128, device = 1):
+    """
+    Sets up the audio output for the network
+    """
+    self.network.updControl( "mrs_real/israte", sample_rate)
+    # Set up Audio File
+    self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
+```
+
+Some other stuff
+----------------
+
+The __call__ method is python is used to make an object callable. Here we want to
+use __call__ to tick our network. This means we can call and instance of our FM
+class like:
+```python
+fm_instance()
+```
+Instead of:
+```python
+fm_instance.tick()
+```
+
+Each call to our class will now cause audio to processed:
+```python
+def __call__(self):
+    self.network.tick()
+```
+
+We will also set up two more methods to override the
+default values for our mod ratio and mod indices.
+```python
+def set_ratios(self, ra1, ra2):
+    self.ra1 = ra1
+    self.ra2 = ra2
+
+def set_mod_indices(self, in1, in2):
+    self.in1 = in1
+    self.in2 = in2
 ```
