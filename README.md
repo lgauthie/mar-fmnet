@@ -3,7 +3,7 @@ This should be a tutorial explaining my program.
 The first thing we will do is create a class to wrap our marsytem.
 This is done so we can hid the marsystem from the user.
 
-``python
+```python
     class FM:
 
         def __init__(self):
@@ -17,7 +17,7 @@ This is done so we can hid the marsystem from the user.
         ...
         ...
         ...
-``
+```
 
 *note: that the self var in the function call is used to access
        member variables. This is implied, and the function can

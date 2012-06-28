@@ -132,6 +132,7 @@ class FM:
         """
         Updates the amplitude envelopes of both oscillators
         """
+        #TODO: This function is a bit
         self.network.updControl( "mrs_real/attack1",   at1)
         self.network.updControl( "mrs_real/decay1",    de1)
         self.network.updControl( "mrs_real/release1",  re1)
