@@ -17,9 +17,11 @@ class FM:
     ...
 ```
 
+<table>
 *note: that the self var in the function call is used to access
        member variables. This is implied, and the function can
        be called as -- fm_instance.some_func(3)
+</table>
        
 
 The first order of business in our class is to set up our 
