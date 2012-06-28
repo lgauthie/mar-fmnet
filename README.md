@@ -1,5 +1,8 @@
 Synthesizeing trumpet tones with FM synthesis
 =============================================
+The idea is to emulate a trumpet tone accoarding to the two operator
+method described by Steve Saunders in the first edition of the
+computer music journal.
 
 The structure
 -------------
@@ -11,22 +14,74 @@ This is done so we can hid the marsystem from the user.
 class FM:
 
     def __init__(self):
-        pass
+        """
+        This method is where we will initialize our marsystem.
+
+        We will also make a call to _init_fm(), and _init_audio()
+        These functions could be directly in __init__(), but
+        I've separated them out to help better organize the code.
+        """
 
     def __call__(self):
-        pass
+        """
+        This method should tick out marsystem. We override the
+        __call__() method so we can use the syntax:
+
+            fm_instance()
+
+        To tick the marsystem.
+        """
 
     def _init_fm(self):
-        pass
+        """
+        This method will re-map out marsystems controls
+        to something that is easier to call.
+        """
 
     def _init_audio(self):
-        pass
+        """
+        This method will set up the audio, for the purpose of
+        generating graphs of we are only using file out. If 
+        you wanted to use the AudioSink marsystem that should
+        be initialized here as well.
+        """
 
-    def update_ratios(self):
-        pass
+    def set_ratios(self):
+        """
+        This method should be used to set the default mod 
+        ratios for the marsystem.
+        """
 
-    def update_mod_indices():
-        pass
+    def set_mod_indices(self):
+        """
+        This method should be used to set the defaul mod
+        indices for the marsystem.
+        """
+
+    def update_oscs(self):
+        """
+        This method is used to set the frequency of the
+        marsystem oscillators. It will use the default
+        ratios, and default mod indices for its calculations
+        """
+
+    def update_envs(self):
+        """
+        This method will set the default amplitude envelope
+        for the marsystem.
+        """
+        
+    def note_on(self):
+        """
+        This method will set the note_on message for the
+        marsystem.
+        """
+        
+    def note_off(self):
+        """
+        Likewise this method will set the note_off message
+        for the marsystem.
+        """
 ```
 
 ```
