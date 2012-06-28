@@ -9,11 +9,11 @@ class FM:
     Sets up and controls a marsyas network doing FM synthesis set up
     as follows:
 
-        Fm(xt) => Env
-                   \\
-                     => + => sink => file
-                   //
-        Fm(yt) => Env
+    Fm(xt) => Env
+                \\
+                  => + => sink => file
+                //
+    Fm(yt) => Env
     """
 
     # Default our systems ratios, and indexes to 1
