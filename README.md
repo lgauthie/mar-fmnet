@@ -1,3 +1,6 @@
+Synthesizeing trumpet tones with FM synthesis
+=============================================
+
 The first thing we will do is create a class to wrap our marsytem.
 This is done so we can hid the marsystem from the user.
 
