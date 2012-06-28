@@ -401,6 +401,9 @@ and release.
 modenv = ADSR(synth, "mrs_type/parameter", dtime=something, scale=something)
 ```
 
+Making a trumpet
+----------------
+
 Lets put this all together
 --------------------------
 
@@ -409,14 +412,21 @@ The first thing we need to do is set up an instance of our synth.
 synth = FM()
 ```
 
-And then override the envelope and ratio settings.
+And then override the envelope. For this to sound trumpet like we need a
+fast attack/decay/release. The decay time for the higher oscillator should
+be slightly longer.
 ```python
 synth.update_envs(at1=0.03, at2=0.03, de1=0.15, de2=0.3, re1=0.1, re2=0.1)
+```
+
+Then we set the ratios. For our trumpet tone we need the first oscillator
+to be 1 to 1, and the second to have the modulator 6 times lower.
+```python
 synth.set_ratios(1, 1.0/6)
 ```
 
 The last thing we need to do to initialize the synth is set the relative
-volume of each oscillator.
+volume of each oscillator. The second oscillator should quieter than the first.
 ```python
 synth.set_gain(1.0, 0.2)
 ```
@@ -457,4 +467,18 @@ for note in notes:
             modenv2.note_off()
             nton = 'off'
         time = time + synth.tstep
+```
+
+The first thing we do is update the frequencies of the oscillators, based on 
+our list. Note that the second oscillator is six times higher than the first.
+```python
+synth.update_oscs(pitch, pitch * 6)
+```
+
+The other thing you might have noticed is that we never set the default modulation
+index. This is because we are controlling that parameter via an envelope. Therefore
+what is the ADSR scale becomes the our modulation amount.
+```python
+modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
+modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
 ```
