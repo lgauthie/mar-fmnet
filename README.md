@@ -23,7 +23,7 @@ The structure
 -------------
 
 The first thing we will do is create a class to wrap our marsystem.
-This is done so we can hid the marsystem from the user.
+This is done so we can hide the marsystem from the user.
 
 ```python
 #!/usr/bin/env python
@@ -232,7 +232,7 @@ def _init_audio(self, sample_rate = 44100.0, buffer_size = 128, device = 1):
     self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
 ```
 
-Some other stuff
+Overriding defaults and ticking the network
 ----------------
 
 The __call__ method is python is used to make an object callable. Here we want to
@@ -262,4 +262,68 @@ def set_ratios(self, ra1, ra2):
 def set_mod_indices(self, in1, in2):
     self.in1 = in1
     self.in2 = in2
+```
+
+Lets talk about FM
+------------------
+
+Now that we have are network set up, we should talk a bit about FM synthesis.
+
+FM is short for frequency modulation. This name is great because it literally
+describes what is taking place, we are modulating the frequency of a signal. 
+We could call it Chowning Synthesis, but that would be silly and not describe very
+well what is happening.
+
+The great thing about FM is that you can create many frequency sidebands from
+simple waves.
+
+The easiest and most commonly used version of FM synthesis is to have two sine wave
+generators. One is called the carrier; it is where we get our output from, and
+the other is called the modulator; it controls the frequency of the carrier.
+
+Both are normally set to be in the audible range, but some neat aliasing effects can
+be achieved if they are not(this also depends on the sample rate of the system).
+See [this](http://en.wikipedia.org/wiki/Aliasing).
+
+The amplitude of the sidebands are controlled by:
++ Modulation Index
++ Bessel Functions
+
+And the location of the sidebands are controlled by:
++ Modulation Ratio
+
+The ratio is used to calculate the frequency of our modulation oscillators:
+    modulation frequency = base frequency x ratio
+
+If the ratio is a whole number our sidebands will be harmonic. Otherwise we
+will end up with an enharmonic spectrum.
+
+This can be made slightly more complicated by having a carrier ratio as well,
+but for trumpet tones we don't need this capability.
+
+The modulation index is used to calculate how many hz our signal should be
+modulated by:
+    modulation depth = base frequency x modulation index
+
+The higher the index the more high frequencies will show up in our output.
+The actual amplitude of each sideband is scaled by a Bessel function, and
+the amount a sideband is scaled by will change depending on the mod index.
+See [this](http://en.wikipedia.org/wiki/Bessel_functions) for a bunch of math
+we don't really need to know to play with FM synthesis.
+
+Because we already mapped these controls earlier on it is now just a matter of
+making a method call that can set these parameters.
+
+```python
+def update_oscs(self, fr1, fr2):
+
+    # Set Osc1
+    self.network.updControl("mrs_real/Osc1cFreq",  float(fr1))
+    self.network.updControl("mrs_real/Osc1mDepth", float(fr1 * self.in1))
+    self.network.updControl("mrs_real/Osc1mSpeed", float(fr1 * self.ra1))
+
+    # Set Osc2
+    self.network.updControl("mrs_real/Osc2cFreq",  float(fr2))
+    self.network.updControl("mrs_real/Osc2mDepth", float(fr2 * self.in2))
+    self.network.updControl("mrs_real/Osc2mSpeed", float(fr2 * self.ra2))
 ```
