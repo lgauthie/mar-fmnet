@@ -1,7 +1,7 @@
 Synthesizing trumpet tones with FM synthesis
 =============================================
 We are going to emulate a trumpet tone according to the two operator
-method described by Steve Saunders in the first edition of the
+method described by Dexter Morrill in the first edition of the
 computer music journal.
 
 Prerequisites
@@ -401,9 +401,6 @@ and release.
 modenv = ADSR(synth, "mrs_type/parameter", dtime=something, scale=something)
 ```
 
-Making a trumpet
-----------------
-
 Lets put this all together
 --------------------------
 
@@ -471,6 +468,10 @@ for note in notes:
 
 The first thing we do is update the frequencies of the oscillators, based on 
 our list. Note that the second oscillator is six times higher than the first.
+This is done to have better control of the tone in the upper registers of the
+trumpet sound. If we were to simply use one oscillator with a higher modulation
+index to get more harmonics, it would become hard to predict and control this area
+of the sound.
 ```python
 synth.update_oscs(pitch, pitch * 6)
 ```
