@@ -6,10 +6,9 @@ from adsr import ADSR
 def main():
     # This is where we set up the synth we created
     synth = FM()
-    synth.update_envs( at1 = 0.03, at2 = 0.03, de1 = 0.15, de2 = 0.3, re1 = 0.1, re2 = 0.1 )
-    synth.set_ratios( 1, 1.0/6 )
-    synth.set_gain( ga1 = 1.0, ga2 = 0.2 )
-    synth.note_on()
+    synth.update_envs(at1 = 0.03, at2 = 0.03, de1 = 0.15, de2 = 0.3, re1 = 0.1, re2 = 0.1)
+    synth.set_ratios(1, 1.0/6)
+    synth.set_gain(ga1 = 1.0, ga2 = 0.2)
 
     # This is where we initialize the envelopes to modulate
     # the mod index 
