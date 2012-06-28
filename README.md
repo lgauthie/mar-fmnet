@@ -483,3 +483,14 @@ what is the ADSR scale becomes the our modulation amount.
 modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
 modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
 ```
+
+Limitations and improvements
+----------------------------
+
+A system could be set up such that the control values of the system are used to map
+a input channel of the marsystem to various parameters, such as the modulation index,
+pitch, ratio, and any other interesting parameters. This would allow for sample
+accurate modulation.
+
+There is also some other issues with the built in FM module. If the mod ratio isn't a whole
+number, there is some pops and clicks that start to happen in the output signal.
