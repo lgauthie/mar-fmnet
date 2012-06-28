@@ -293,7 +293,9 @@ And the location of the sidebands are controlled by:
 + Modulation Ratio
 
 The ratio is used to calculate the frequency of our modulation oscillators:
-    modulation frequency = base frequency x ratio
+```
+modulation frequency = base frequency x ratio
+```
 
 If the ratio is a whole number our sidebands will be harmonic. Otherwise we
 will end up with an enharmonic spectrum.
@@ -303,7 +305,9 @@ but for trumpet tones we don't need this capability.
 
 The modulation index is used to calculate how many hz our signal should be
 modulated by:
-    modulation depth = base frequency x modulation index
+```
+modulation depth = base frequency x modulation index
+```
 
 The higher the index the more high frequencies will show up in our output.
 The actual amplitude of each sideband is scaled by a Bessel function, and
