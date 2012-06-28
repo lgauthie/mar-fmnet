@@ -12,8 +12,8 @@ def main():
 
     # This is where we initialize the envelopes to modulate
     # the mod index 
-    modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = 250 * 2.66)
-    modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = 250 * 1.8)
+    modenv1 = ADSR(synth, "mrs_real/Osc1mDepth")
+    modenv2 = ADSR(synth, "mrs_real/Osc2mDepth")
 
     pitch = 250
     notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
@@ -22,7 +22,12 @@ def main():
         time = 0.0
         nton = 'on'
 
-        trig( note, note*6, synth, modenv1, modenv2 )
+        synth.update_oscs(pitch, pitch * 6)
+        modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
+        modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
+        synth.note_on()
+        modenv1.note_on()
+        modenv2.note_on()
         while time < 0.4:
             synth()
             modenv1()
@@ -34,14 +39,6 @@ def main():
                 modenv2.note_off()
                 nton = 'off'
             time = time + synth.tstep
-
-def trig(fr1, fr2, synth, modenv1, modenv2):
-    synth.update_oscs( fr1, fr2 )
-    modenv1.__init__(synth, "mrs_real/Osc1mDepth", dtime = 0.15, scale = fr1 * 2.66)
-    modenv2.__init__(synth, "mrs_real/Osc2mDepth", dtime = 0.3,  scale = fr2 * 1.8)
-    synth.note_on()
-    modenv1.note_on()
-    modenv2.note_on()
 
 if __name__ == "__main__":
     main()
