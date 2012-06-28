@@ -179,6 +179,12 @@ Because we may want to re-use this system in a larger contexts linking controls 
 this becomes really import; it keeps access to system parameters from becoming
 completely ridiculous.
 
+All of these parameters that are getting linked now will be discussed in later sections.
+
+The one parameter I would like to talk about now is the "mrs_real/noteon". Both envelopes
+have been linked to the same control so both can be triggered at the same time. The same
+thing happens with the oscillators "mrs_bool/noteon".
+
 ```python
 def _init_fm(self):
     # Map Osc1 Controls
@@ -382,5 +388,73 @@ I have written an ADSR envelope in python that will allow us to modulate
 any parameter of our synth. We can only update the value each time we tick
 our system, but it is better then having no modulation.
 
+This envelope can be used like:
+```python
+modenv = ADSR(synth, "mrs_type/parameter")
+```
+
+Each time modenv() is called it will tick the envelope, and update the parameter.
+
+It also has the ability to scale the output, or change the times for the attack, decay,
+and release.
+```python
+modenv = ADSR(synth, "mrs_type/parameter", dtime=something, scale=something)
+```
+
 Lets put this all together
 --------------------------
+
+The first thing we need to do is set up an instance of our synth.
+```python
+synth = FM()
+```
+
+And then override the envelope and ratio settings.
+```python
+synth.update_envs(at1=0.03, at2=0.03, de1=0.15, de2=0.3, re1=0.1, re2=0.1)
+synth.set_ratios(1, 1.0/6)
+```
+
+The last thing we need to do to initialize the synth is set the relative
+volume of each oscillator.
+```python
+synth.set_gain(1.0, 0.2)
+```
+
+It would be cool if we could play a little melody, so lets create a list of notes
+to play.
+```python
+pitch = 250
+notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
+```
+
+We can now iterate through that list, and generate a 0.3s note for
+each note in the list.
+```python
+for note in notes:
+    time = 0.0
+    nton = 'on'
+
+    # Update the frequencies
+    synth.update_oscs(pitch, pitch * 6)
+    # hook up the modulation envelope
+    modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
+    modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
+
+    # Tell everything to turn on
+    synth.note_on()
+    modenv1.note_on()
+    modenv2.note_on()
+    while time < 0.4:
+        # Tick the system and envelopes
+        synth()
+        modenv1()
+        modenv2()
+
+        if time > 0.3 and nton == 'on':
+            synth.note_off()
+            modenv1.note_off()
+            modenv2.note_off()
+            nton = 'off'
+        time = time + synth.tstep
+```
