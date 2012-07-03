@@ -7,6 +7,24 @@ computer music journal.
 ```
 There should be a blurb here talking about what we need to create a trumpet tone
 ```
+```
+The section talking about synthesis should explain why two pairs of
+oscillators are being used.
+
+A spectrogram should be used here to show the problem of using one
+pair of oscillators with a higher modulation ration.
+```
+```
+The "Lets talk about synthesis" section should be split up; the part
+about FM synthesis should come before anything about the program or
+marsyas, and the part about the code should be in an "Setting up the
+oscillators" section.
+```
+```
+Add a short section on setting the relative gain. It is talk about in
+the "Putting it all together" section, but I never explain where the
+method comes from.
+```
 
 Prerequisites
 -------------
