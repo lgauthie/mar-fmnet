@@ -21,7 +21,7 @@ marsyas, and the part about the code should be in an "Setting up the
 oscillators" section.
 ```
 ```
-Add a short section on setting the relative gain. It is talk about in
+Add a short section on setting the relative gain. It is talked about in
 the "Putting it all together" section, but I never explain where the
 method comes from.
 ```
