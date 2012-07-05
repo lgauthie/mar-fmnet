@@ -464,18 +464,13 @@ for note in notes:
     time = 0.0
     nton = 'on'
 
-    # Update the frequencies
-    synth.update_oscs(pitch, pitch * 6)
-    # hook up the modulation envelope
-    modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
-    modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
-
-    # Tell everything to turn on
+    synth.update_oscs(note, note * 6)
+    modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=note * 2.66)
+    modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=note * 1.8)
     synth.note_on()
     modenv1.note_on()
     modenv2.note_on()
     while time < 0.4:
-        # Tick the system and envelopes
         synth()
         modenv1()
         modenv2()
