@@ -35,7 +35,7 @@ To follow this tutorial you will need:
 + plot_spectrogram - from the same location
 
 marsyas_util.py and plot_spectrogram.py should be placed in the same folder
-as the code examples.
+as the code examples. ```Please define what these modules do.```
 
 A tutorial on installing Marsyas and swig python bindings can
 be found
