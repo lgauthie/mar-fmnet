@@ -29,7 +29,7 @@ method comes from.
 Prerequisites
 -------------
 To follow this tutorial you will need:
-+ Python
++ Python ```which versions?```
 + Marsyas - compiled with the swig python bindings
 + marsyas_util - found in src/marsyas_python/ from the Marsyas svn repository
 + plot_spectrogram - from the same location
