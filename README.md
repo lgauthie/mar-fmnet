@@ -1,4 +1,4 @@
-Synthesizing trumpet tones with FM synthesis
+Synthesizing trumpet tones with Marsyas using FM synthesis
 =============================================
 We are going to emulate a trumpet tone according to the two operator
 method described by Dexter Morrill in the first edition of the
