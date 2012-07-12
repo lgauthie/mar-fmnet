@@ -1,5 +1,5 @@
 Synthesizing trumpet tones with Marsyas using FM synthesis
-=============================================
+==========================================================
 
 We are going to emulate a trumpet tone according to the two operator method
 described by Dexter Morrill in the first edition of the computer music journal.
@@ -29,7 +29,7 @@ A tutorial on installing Marsyas and swig python bindings can be found
 I'm also assuming you have some experience with classes in python, and object
 oriented programming in general.  
 
-Lets talk about FM Synthesis
+Lets talk about FM synthesis
 ---------------------------
 ```
 There should be a blurb here talking about what we need to create a trumpet tone
@@ -60,11 +60,8 @@ effects can be achieved if they are not(this also depends on the sample rate of
 the system).  See
 [this](http://en.wikipedia.org/wiki/Aliasing#Sampling_sinusoidal_functions).
 
-The amplitude of the sidebands are controlled by:
+The two most import parameters when working with FM synthesis are:
 + Modulation Index
-+ Bessel Functions
-
-And the location of the sidebands are controlled by:
 + Modulation Ratio
 
 The ratio is used to calculate the frequency of our modulation oscillators:
@@ -75,20 +72,28 @@ modulation frequency = base frequency x ratio
 If the ratio is a whole number our sidebands will be harmonic. Otherwise we
 will end up with an enharmonic spectrum.
 
-This can be made slightly more complicated by having a carrier ratio as well,
-but for trumpet tones we don't need this capability.
-
 The modulation index is used to calculate how many hz our signal should be
 modulated by:
 ```
 modulation depth = base frequency x modulation index
 ```
 
-The higher the index the more high frequencies will show up in our output.  The
+The higher the index the more high frequencies will show up in our output. The
 actual amplitude of each sideband is scaled by a Bessel function, and the
 amount a sideband is scaled by will change depending on the mod index.  See
 [this](http://en.wikipedia.org/wiki/Bessel_functions) for a bunch of math you
 don't really need to know to play with FM synthesis.
+
+A side effect of the Bessel functions is that as the mod index increases the
+less control we have over the sidebands as we sweep the mod index over time.
+Some where shortly after a modulation index of 3 this starts to be especially
+bad. This is our motivation for using two oscillators pairs instead of one; it
+allows for more control of the higher frequencies.
+
+```
+Spectrogram here showing how the frequencies get less controlable at higher
+modulation ratios.
+```
 
 The structure
 -------------
