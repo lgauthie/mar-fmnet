@@ -20,8 +20,8 @@ To follow this tutorial you will need:
 
 marsyas_util.py and plot_spectrogram.py should be placed in the same folder as
 the code examples.  marsyas_util defines some Marsyas helper functions we can
-use to set up mar systems easier, and plot_spectrogram can be used to draw a
-spectrogram of our output.
+use to set up MarSystems easier, and plot_spectrogram can be used to draw
+spectrograms of our output.
 
 A tutorial on installing Marsyas and swig python bindings can be found
 [here](http://marsology.blogspot.ca/2011/09/installing-marsyas-with-python-bindings.html).
@@ -98,8 +98,8 @@ modulation ratios.
 The structure
 -------------
 
-The first thing we will do is create a class to wrap our marsystem.
-This is done so we can hide the marsystem from the user.
+The first thing we will do is create a class to wrap our MarSystem.
+This is done so we can hide the MarSystem from the user.
 
 ```python
 #!/usr/bin/env python
@@ -113,7 +113,7 @@ class FM:
 
     def __init__(self):
         """
-        This method is where we will initialize our marsystem.
+        This method is where we will initialize our MarSystem.
 
         We will also make a call to _init_fm(), and _init_audio() These
         functions could be directly in __init__(), but I've separated them out
@@ -122,59 +122,59 @@ class FM:
 
     def __call__(self):
         """
-        This method should tick out marsystem. We override the
+        This method should tick out MarSystem. We override the
         __call__() method so we can use the syntax:
 
             fm_instance()
 
-        To tick the marsystem.
+        To tick the MarSystem.
         """
 
     def _init_fm(self):
         """
-        This method will re-map out marsystems controls to something that is
+        This method will re-map our MarSystems controls to something that is
         easier to call.
         """
 
     def _init_audio(self):
         """
         This method will set up the audio system, currently we are only using
-        the marsyas AudioFileSink. If you wanted to use the AudioSink marsystem
+        the marsyas AudioFileSink. If you wanted to use the AudioSink MarSystem
         that should be initialized here as well.
         """
 
     def set_ratios(self):
         """
         This method should be used to set the default modulation ratios for the
-        marsystem.
+        MarSystem.
         """
 
     def set_mod_indices(self):
         """
         This method should be used to set the default modulation indices for
-        the marsystem.
+        the MarSystem.
         """
 
     def update_oscs(self):
         """
-        This method is used to set the frequency of the marsystem oscillators.
+        This method is used to set the frequency of the MarSystem oscillators.
         It will use the default ratios, and default mod indices for its
         calculations
         """
 
     def update_envs(self):
         """
-        This method will set the default amplitude envelope for the marsystem.
+        This method will set the default amplitude envelope for the MarSystem.
         """
         
     def note_on(self):
         """
-        This method will set the note_on message for the marsystem.
+        This method will set the note_on message for the MarSystem.
         """
         
     def note_off(self):
         """
-        Likewise this method will set the note_off message for the marsystem.
+        Likewise this method will set the note_off message for the MarSystem.
         """
 ```
 
@@ -208,7 +208,7 @@ def __init__(self):
 
     """
     create is a function defined in marsyas_util, it takes
-    in a list of lists, and parses it to create our marsystem.
+    in a list of lists, and parses it to create our MarSystem.
     """
     self.network = create(gen)
 
@@ -291,7 +291,7 @@ the output volume of the system.
 Initializing the audio
 ----------------------
 
-Here we are setting up the audio output for our mar system. Right now we are
+Here we are setting up the audio output for our MarSystem. Right now we are
 just using the file output, but buffer_size and device are left in the method
 call in case we want to add the ability to directly write to an AudioSink.
 
@@ -512,9 +512,11 @@ Limitations and improvements
 ----------------------------
 
 A system could be set up such that the control values of the system are used to
-map a input channel of the marsystem to various parameters, such as the
+map a input channel of the MarSystem to various parameters, such as the
 modulation index, pitch, ratio, and any other interesting parameters. This
 would allow for sample accurate modulation.
 
 There are also some other issues with the built in FM module. If the mod ratio
-isn't a whole number, there will be pops and clicks in the output signal.
+isn't a whole number, there will be pops and clicks in the output signal. This
+could be a side effect of the FM module having a fairly small non-interpolating
+wavetable.
