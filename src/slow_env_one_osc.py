@@ -10,7 +10,7 @@ def main():
 
     synth.set_ratios(1, 1.0/6)
     synth.set_gain(1.0, 0.0)
-    synth.audio_file("two_osc.wav")
+    synth.audio_file("one_osc.wav")
 
     # This is where we initialize the envelopes to modulate
     # the mod index 
