@@ -92,6 +92,13 @@ class FM:
         # Set up Audio File
         self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", "fm.wav")
 
+    def audio_file(self, name="fm.wav"):
+        """
+        Sets up the audio output for the network
+        """
+        # Set up Audio File
+        self.network.updControl( "SoundFileSink/dest2/mrs_string/filename", name)
+
     def set_ratios(self, ra1, ra2):
         """
         Updates the ratios of the oscillators
