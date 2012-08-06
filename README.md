@@ -7,7 +7,20 @@ described by Dexter Morrill in the first edition of the computer music journal.
 Contents
 --------
 
-[Prerequisites](#Prerequisites)
+* [Prerequisites](README.md#Prerequisites)
+* [Lets talk about FM](README.md#lets-talk-about-fm-synthesis)
+* [Trumpets](README.md#trumpets)
+* [The structure](README.md#the-structure)
+* [Setting up the system](README.md#setting-up-the-system)
+* [Mapping the controls](README.md#mapping-the-controls)
+* [Initializing the audio](README.md#initializing-the-audio)
+* [Overriding defaults and ticking the network](README.md#overriding-defaults-and-ticking-the-network)
+* [Mapping the FM controls](README.md#mapping-the-fm-controls)
+* [The envelopes](README.md#the-envelopes)
+* [Note on, note off](README.md#note-on-note-off)
+* [More envelopes](README.md#more-envelopes)
+* [Lets put this all together](README.md#lets-put-this-all-together)
+* [Limitations and improvements](README.md#limitations-and-improvements)
 
 Prerequisites
 -------------
@@ -403,9 +416,6 @@ def update_envs(self, at1, at2, de1, de2, re1, re2):
     self.network.updControl("mrs_real/decay2",    de2)
     self.network.updControl("mrs_real/release2",  re2)
 ```
-
-Relative Gains
--------------
 
 Note on, note off
 -----------------
