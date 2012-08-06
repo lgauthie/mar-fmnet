@@ -551,6 +551,6 @@ modulation index, pitch, ratio, and any other interesting parameters. This
 would allow for sample accurate modulation.
 
 There are also some other issues with the built in FM module. If the mod ratio
-isn't a whole number, or the modulation index is too hight, there will be pops
+isn't a whole number, or the modulation index is too high, there will be pops
 and clicks in the output signal. This could be a side effect of the FM module
 having a fairly small non-interpolating wavetable.
