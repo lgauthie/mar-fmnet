@@ -31,18 +31,6 @@ oriented programming in general.
 
 Lets talk about FM synthesis
 ---------------------------
-```
-There should be a blurb here talking about what we need to create a trumpet tone
-```
-```
-The section talking about synthesis should explain why two pairs of oscillators
-are being used.
-
-A spectrogram should be used here to show the problem of using one pair of
-oscillators with a higher modulation ration.
-```
-
-![One Oscillator](graphs/one_osc.png)
 
 FM is short for frequency modulation. This name is great because it literally
 describes what is taking place, we are modulating the frequency of a signal.
@@ -63,10 +51,12 @@ the system).  See
 [this](http://en.wikipedia.org/wiki/Aliasing#Sampling_sinusoidal_functions).
 
 The two most import parameters when working with FM synthesis are:
+
 + Modulation Index
 + Modulation Ratio
 
 The ratio is used to calculate the frequency of our modulation oscillators:
+
 ```
 modulation frequency = base frequency x ratio
 ```
@@ -76,6 +66,7 @@ will end up with an enharmonic spectrum.
 
 The modulation index is used to calculate how many hz our signal should be
 modulated by:
+
 ```
 modulation depth = base frequency x modulation index
 ```
@@ -86,16 +77,34 @@ amount a sideband is scaled by will change depending on the mod index.  See
 [this](http://en.wikipedia.org/wiki/Bessel_functions) for a bunch of math you
 don't really need to know to play with FM synthesis.
 
-A side effect of the Bessel functions is that as the mod index increases the
-less control we have over the sidebands as we sweep the mod index over time.
-Some where shortly after a modulation index of 3 this starts to be especially
-bad. This is our motivation for using two oscillators pairs instead of one; it
-allows for more control of the higher frequencies.
+It is important to note that as our mod index gets higher then three the
+spectrum starts becoming harder to predict.
 
-```
-Spectrogram here showing how the frequencies get less controlable at higher
-modulation ratios.
-```
+
+Trumpets
+-------
+
+To approximate a trumpet tone we need about eight harmonics. Most of the energy
+is contained around the first and sixth harmonics.
+
+One approach to generating these harmonics would be to simply have one FM pair,
+and have the modulation ratio set high enough to generate eight harmonics.
+
+![One Oscillator](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/one_osc.png
+                  "Modulation ratio ramped from 0 to 8")
+
+As you can see though as the modulation ratio starts getting higher energy
+starts getting lost from the fundamental. This doesn't exactly stick with
+the idea of having most of our energy in the first harmonic. Also, there
+is not enough energy in the sixth harmonic.
+
+By using two of these pairs one 6 times higher, and keeping the modulation
+ratio of both less than three we get a much more predictable spectrum.
+
+![Two Oscillators](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/two_osc.png
+                   "Osc1 ramped from 0 to 2.66 | Osc2 ramped from 0 to 1.8")
+
+This also gives us that extra energy needed around the sixth harmonic.
 
 The structure
 -------------
@@ -435,6 +444,7 @@ Lets put this all together
 --------------------------
 
 The first thing we need to do is set up an instance of our synth.
+
 ```python
 synth = FM()
 ```
@@ -442,24 +452,28 @@ synth = FM()
 And then override the envelope. For this to sound trumpet like we need a fast
 attack/decay/release. The decay time for the higher oscillator should be
 slightly longer.
+
 ```python
 synth.update_envs(at1=0.03, at2=0.03, de1=0.15, de2=0.3, re1=0.1, re2=0.1)
 ```
 
 Then we set the ratios. For our trumpet tone we need the first oscillator to be
 1 to 1, and the second to have the modulator 6 times lower.
+
 ```python
 synth.set_ratios(1, 1.0/6)
 ```
 
 The last thing we need to do to initialize the synth is set the relative volume
 of each oscillator. The second oscillator should quieter than the first.
+
 ```python
 synth.set_gain(1.0, 0.2)
 ```
 
 It would be cool if we could play a little melody, so lets create a list of
 notes to play.
+
 ```python
 pitch = 250
 notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
@@ -467,6 +481,7 @@ notes = [pitch, pitch * 2, (pitch * 3)/2.0, (pitch * 5)/3.0, pitch]
 
 We can now iterate through that list, and generate a 0.3s note for each note in
 the list.
+
 ```python
 for note in notes:
     time = 0.0
@@ -491,12 +506,10 @@ for note in notes:
         time = time + synth.tstep
 ```
 
-The first thing we do is update the frequencies of the oscillators, based on
-our list. Note that the second oscillator is six times higher than the first.
-This is done to have better control of the tone in the upper registers of the
-trumpet sound. If we were to simply use one oscillator with a higher modulation
-index to get more harmonics, it would become hard to predict and control this
-area of the sound.
+The first thing we do is update the frequencies of the oscillators based on our
+list of notes. Note that the second oscillator is six times higher than the
+first.
+
 ```python
 synth.update_oscs(pitch, pitch * 6)
 ```
@@ -505,6 +518,7 @@ The other thing you might have noticed is that we never set the default
 modulation index. This is because we are controlling that parameter via an
 envelope. Therefore we have to set the modulation amout using the ADSR scale
 factor.
+
 ```python
 modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
 modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
