@@ -42,6 +42,8 @@ A spectrogram should be used here to show the problem of using one pair of
 oscillators with a higher modulation ration.
 ```
 
+[image]: https://github.com/lgauthie/mar-fmnet/blob/master/graphs/one_osc.png?raw=true
+
 FM is short for frequency modulation. This name is great because it literally
 describes what is taking place, we are modulating the frequency of a signal.
 We could call it Chowning Synthesis, but that would be silly and not describe
