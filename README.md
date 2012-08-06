@@ -4,15 +4,15 @@ Synthesizing trumpet tones with Marsyas using FM synthesis
 We are going to emulate a trumpet tone according to the two operator method
 described by Dexter Morrill in the first edition of the computer music journal.
 
-```
-Add a short section on setting the relative gain. It is talked about in the
-"Putting it all together" section, but I never explain where the method comes
-from.
-```
+Contents
+--------
+
+[Prerequisites]
 
 Prerequisites
 -------------
 To follow this tutorial you will need:
+
 + Python - I'm using version 2.7, but 2.6 or 2.5 should work as well
 + Marsyas - compiled with the swig python bindings
 + marsyas_util - found in src/marsyas_python/ from the Marsyas svn repository
@@ -186,6 +186,12 @@ class FM:
     def note_off(self):
         """
         Likewise this method will set the note_off message for the MarSystem.
+        """
+
+    def relative_gain(self):
+        """
+        This method with be used to set the gain ratio between the two
+        oscillators.
         """
 ```
 
