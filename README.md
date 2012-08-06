@@ -42,7 +42,7 @@ A spectrogram should be used here to show the problem of using one pair of
 oscillators with a higher modulation ration.
 ```
 
-[image]: graphs/one_osc.png "One Oscillator"
+![One Oscillator](graphs/one_osc.png)
 
 FM is short for frequency modulation. This name is great because it literally
 describes what is taking place, we are modulating the frequency of a signal.
