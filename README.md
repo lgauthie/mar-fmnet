@@ -7,7 +7,7 @@ described by Dexter Morrill in the first edition of the computer music journal.
 Contents
 --------
 
-[[Prerequisites]]
+[Prerequisites](#Prerequisites)
 
 Prerequisites
 -------------
