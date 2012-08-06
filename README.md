@@ -7,7 +7,7 @@ described by Dexter Morrill in the first edition of the computer music journal.
 Contents
 --------
 
-* [Prerequisites](README.md#Prerequisites)
+* [Prerequisites](README.md#prerequisites)
 * [Lets talk about FM](README.md#lets-talk-about-fm-synthesis)
 * [Trumpets](README.md#trumpets)
 * [The structure](README.md#the-structure)
