@@ -103,6 +103,7 @@ is contained around the first and sixth harmonics.
 One approach to generating these harmonics would be to simply have one FM pair,
 and have the modulation ratio set high enough to generate eight harmonics.
 
+### Modulation ratio ramped from 0 to 8
 ![One Oscillator](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/one_osc.png
                   "Modulation ratio ramped from 0 to 8")
 
@@ -114,6 +115,7 @@ is not enough energy in the sixth harmonic.
 By using two of these pairs one 6 times higher, and keeping the modulation
 ratio of both less than three we get a much more predictable spectrum.
 
+### Osc1 ramped from 0 to 2.66 | Osc2 ramped from 0 to 1.8
 ![Two Oscillators](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/two_osc.png
                    "Osc1 ramped from 0 to 2.66 | Osc2 ramped from 0 to 1.8")
 
