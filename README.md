@@ -104,7 +104,7 @@ One approach to generating these harmonics would be to simply have one FM pair,
 and have the modulation ratio set high enough to generate eight harmonics.
 
 ### Modulation ratio ramped from 0 to 8
-![One Oscillator](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/one_osc.png
+![One Oscillator](https://raw.github.com/lgauthie/mar-fmnet/master/resources/one_osc.png
                   "Modulation ratio ramped from 0 to 8")
 
 As you can see though as the modulation ratio starts getting higher energy
@@ -116,7 +116,7 @@ By using two of these pairs one 6 times higher, and keeping the modulation
 ratio of both less than three we get a much more predictable spectrum.
 
 ### Osc1 ramped from 0 to 2.66 | Osc2 ramped from 0 to 1.8
-![Two Oscillators](https://raw.github.com/lgauthie/mar-fmnet/master/graphs/two_osc.png
+![Two Oscillators](https://raw.github.com/lgauthie/mar-fmnet/master/resources/two_osc.png
                    "Osc1 ramped from 0 to 2.66 | Osc2 ramped from 0 to 1.8")
 
 This also gives us that extra energy needed around the sixth harmonic.
@@ -541,6 +541,10 @@ factor.
 modenv1 = ADSR(synth, "mrs_real/Osc1mDepth", dtime=0.15, scale=fr1 * 2.66)
 modenv2 = ADSR(synth, "mrs_real/Osc2mDepth", dtime=0.3,  scale=fr2 * 1.8)
 ```
+
+Finaly we can run the program with ```python main.py```, it should give us
+[this](https://raw.github.com/lgauthie/mar-fmnet/master/resources/fm.wav)
+as an output.
 
 Limitations and improvements
 ----------------------------
