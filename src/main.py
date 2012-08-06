@@ -28,12 +28,12 @@ def main():
         synth.note_on()
         modenv1.note_on()
         modenv2.note_on()
-        while time < 0.4:
+        while time < 1.0:
             synth()
             modenv1()
             modenv2()
 
-            if time > 0.3 and nton == 'on':
+            if time > 0.7 and nton == 'on':
                 synth.note_off()
                 modenv1.note_off()
                 modenv2.note_off()
