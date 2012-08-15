@@ -46,11 +46,11 @@ Lets talk about FM synthesis
 ---------------------------
 
 FM is short for frequency modulation. This name is great because it literally
-describes what is taking place, we are modulating the frequency of a signal.
+describes what is taking place, we are modulating the frequency of a signal.```But what is "modulation" what effect does modulating frequency create``` 
 We could call it Chowning Synthesis, but that would be silly and not describe
 very well what is happening.
 
-The great thing about FM is that you can create many frequency sidebands from
+The great thing about FM is that you can create many frequency sidebands from```What is a sideband```
 simple waves.
 
 The easiest and most commonly used version of FM synthesis is to have two sine
